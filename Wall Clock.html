@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clock Wall</title>
+  <style>
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #2b2b2b;
+      font-family: "Arial", sans-serif;
+    }
+    
+    .clock {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background-color: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    
+    .clock .time {
+      font-size: 60px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    
+    .clock .am-pm {
+      font-size: 24px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    function updateTime(clock) {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+      const amPm = hours >= 12 ? 'PM' : 'AM';
+      
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      
+      clock.getElementsByClassName('time')[0].textContent = timeString;
+      clock.getElementsByClassName('am-pm')[0].textContent = amPm;
+    }
+    
+    function createClock() {
+      const clockDiv = document.createElement('div');
+      clockDiv.className = 'clock';
+      
+      const timeDiv = document.createElement('div');
+      timeDiv.className = 'time';
+      
+      const amPmDiv = document.createElement('div');
+      amPmDiv.className = 'am-pm';
+      
+      clockDiv.appendChild(timeDiv);
+      clockDiv.appendChild(amPmDiv);
+      document.body.appendChild(clockDiv);
+      
+      return clockDiv;
+    }
+    
+    function startClocks() {
+      const clock = createClock();
+      
+      function updateClock() {
+        updateTime(clock);
+      }
+      
+      setInterval(updateClock, 1000);
+    }
+    
+    startClocks();
+  </script>
+</body>
+</html>
